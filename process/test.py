@@ -1,5 +1,6 @@
 import init
 import sys
+import os
 import conf
 if __name__=='__main__':
     myid = sys.argv[1]
