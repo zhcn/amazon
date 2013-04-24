@@ -3,7 +3,7 @@ import os
 
 def init(conf):
     data = {
-	"ips":["118.244.225.90","118.145.12.196"],
+	"ips":["118.244.224.3"],
         "master_ip":"118.244.224.211",
 	"data_file":"/root/data/urls.txt",
 	"split_tmp":"/root/split_tmp",
