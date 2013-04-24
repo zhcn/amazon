@@ -47,7 +47,7 @@ def my_task_split(conf_path):
     data_file = config['data_file']
     task_num = config['task_num']
     prefix = config['split_prefix']
-    split(task_num,data_file,split_tmp)
+    split(task_num,data_file,split_tmp,prefix)
     
     
     

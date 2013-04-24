@@ -41,6 +41,6 @@ if __name__=='__main__':
 
     for t in ths:
         t.join()
-        
+    print 'merge'    
     os.system('python '+merge)
     print 'client main finished'
