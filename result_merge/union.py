@@ -39,15 +39,19 @@ def getIsbn(path,isbn_all):
                     total += 1
     
 def union(sourcedir,destpath):
-    global total = 0
-    global num = 0
-    global dup = 0
-    global isbn_hash = {}
+    global total
+    global num
+    global dup
+    global isbn_hash
+    total = 0
+    num = 0
+    dup = 0
+    isbn_hash = {}
     isbn_all = open(destpath,'w')
     getIsbn(sourcedir,isbn_all)
-    print 'remain:\t'+total
-    print 'total:\t'+num
-    print 'dupliate:\t'dup
+    print 'remain:\t'+str(total)
+    print 'total:\t'+str(num)
+    print 'dupliate:\t'+str(dup)
     isbn_all.close()
 
 def merge(ip,sourcedir,destpath,rdest,myid):
