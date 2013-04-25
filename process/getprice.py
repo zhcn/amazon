@@ -57,8 +57,15 @@ class Regrex:
         self.re_price = re.compile('<\s*span\s*class="price">\s*\$(.*?)</span>')
         self.re_condition = re.compile('<div\s*class="condition">([\s\S]*?)</div>')
         self.re_seller = re.compile('<div\s*class="seller">([\s\S]*?)</div>')
+        self.re_next = re.compile('<a\s*id="olp_page_next"\s*class="nextoff"\s*href="(.*?)"')
     def getResults(self,html):
         return self.re_results.findall(html)
+    def getNext(self,html):
+        `nextUrl = self.re_next.findall(html)
+        if(len(nextUrl)==0):
+            return ""
+        else:
+            return "http://www.amazon.com"+nextUrl[0]
     def parseResult(self,result):
         price = self.re_price.findall(result)
         price = float(price[0])
