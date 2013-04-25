@@ -57,15 +57,22 @@ class Regrex:
         self.re_price = re.compile('<\s*span\s*class="price">\s*\$(.*?)</span>')
         self.re_condition = re.compile('<div\s*class="condition">([\s\S]*?)</div>')
         self.re_seller = re.compile('<div\s*class="seller">([\s\S]*?)</div>')
-        self.re_next = re.compile('<a\s*id="olp_page_next"\s*class="nextoff"\s*href="(.*?)"')
+        #self.re_next = re.compile('<a\s*id="olp_page_next"\s*class="nextoff"\s*href="([\s\S]*?)"')
+        self.re_next = re.compile('<a([^>]*?)>\s*next')
+        self.re_href = re.compile('href="([\s\S]*?)"')
     def getResults(self,html):
         return self.re_results.findall(html)
     def getNext(self,html):
-        `nextUrl = self.re_next.findall(html)
+        nextUrl = self.re_next.findall(html)
         if(len(nextUrl)==0):
             return ""
         else:
-            return "http://www.amazon.com"+nextUrl[0]
+            nextUrl = self.re_href.findall(nextUrl[0])
+            nextUrl[0] = nextUrl[0].replace('amp;','')
+            nextUrl[0] = nextUrl[0].replace('startindex','startIndex')
+            res = "http://www.amazon.com"+nextUrl[0]
+            #print res
+            return res
     def parseResult(self,result):
         price = self.re_price.findall(result)
         price = float(price[0])
@@ -100,18 +107,19 @@ class Regrex:
 
 def readIsbnPriceList(isbn):
     url_new = 'http://www.amazon.com/gp/offer-listing/'+isbn+'/ref=dp_olp_new?ie=UTF8&condition=new'
-    url_old = 'http://www.amazon.com/gp/offer-listing/'+isbn+'/ref=dp_olp_new?ie=UTF8&condition=old'
+    url_used = 'http://www.amazon.com/gp/offer-listing/'+isbn+'/ref=dp_olp_new?ie=UTF8&condition=used'
     res = []
     tmp_url = url_new
     regrex = Regrex()
     while(tmp_url!=''):
+        #print tmp_url
         response = _fetch(tmp_url)
         html = response.read()
         html = html.lower()
         res = res+regrex.getPriceList(html)
         tmp_url = regrex.getNext(html)
-    tmp_url = url_old
-    while(tmp_url!='')
+    tmp_url = url_used
+    while(tmp_url!=''):
         response = _fetch(tmp_url)
         html = response.read()
         html = html.lower()
@@ -163,11 +171,21 @@ def query(queryfile):
 
 
 if __name__=='__main__':
-    regrex = Regrex()
-    response = _fetch('http://www.amazon.com/gp/offer-listing/B005M4MTY4/sr=/qid=/ref=olp_tab_all?ie=UTF8&colid=&coliid=&me=&qid=&seller=&sr=')
-    html = response.read()
-    html = html.lower()
-    #print html
-    results = regrex.getResults(html)
-    for result in results:
-        regrex.parseResult(result)
+##    regrex = Regrex()
+##    response = _fetch('http://www.amazon.com/gp/offer-listing/B005M4MTY4/sr=/qid=/ref=olp_tab_all?ie=UTF8&colid=&coliid=&me=&qid=&seller=&sr=')
+##    html = response.read()
+##    html = html.lower()
+##    #print html
+##    results = regrex.getResults(html)
+##    for result in results:
+##        regrex.parseResult(result)
+    priceList = readIsbnPriceList('0809475626')
+    print priceList
+    print len(priceList)
+##    regrex = Regrex()
+##    response = _fetch('http://www.amazon.com/gp/offer-listing/0809475626/sr=/qid=/ref=olp_tab_used?ie=UTF8&colid=&coliid=&condition=used&me=&qid=&seller=&sr=')
+##    html = response.read()
+##    html = html.lower()
+##    #print html
+##    print regrex.getNext(html)
+    
