@@ -90,14 +90,62 @@ class Regrex:
         if(len(seller)==0):
             notAmazon = False
         #print notAmazon
-        print (price,condition,notAmazon)
-
+        return (price,condition,notAmazon)
+    def getPriceList(self,html):
+        priceList = []
+        results = self.getResults(html)
+        for r in results:
+            priceList.append(self.parseResult(r))
+        return priceList
 
 def readIsbnPriceList(isbn):
-    pass
+    url_new = 'http://www.amazon.com/gp/offer-listing/'+isbn+'/ref=dp_olp_new?ie=UTF8&condition=new'
+    url_old = 'http://www.amazon.com/gp/offer-listing/'+isbn+'/ref=dp_olp_new?ie=UTF8&condition=old'
+    res = []
+    tmp_url = url_new
+    regrex = Regrex()
+    while(tmp_url!=''):
+        response = _fetch(tmp_url)
+        html = response.read()
+        html = html.lower()
+        res = res+regrex.getPriceList(html)
+        tmp_url = regrex.getNext(html)
+    tmp_url = url_old
+    while(tmp_url!='')
+        response = _fetch(tmp_url)
+        html = response.read()
+        html = html.lower()
+        res = res + regrex.getPriceList(html)
+        tmp_url = regrex.getNext(html)
+    return res
 
-def calPrice(priceList):
-    pass
+
+def calPrice(priceList,condition):
+    price_list = []
+    if(condition=='new'):
+        for p in priceList:
+            if(p[1]=='new'):
+                price_list.append(p[0])
+    elif(condition=='likenew'):
+        for p in priceList:
+            if(p[1]=='new' or p[1]=='like new'):
+                price_list.append(p[0])
+    elif(condition=='verygood'):
+        for p in priceList:
+            if(p[1]=='new' or p[1]=='like new' or p[1]=='very good'):
+                price_list.append(p[0])
+    elif(condition=='good'):
+        for p in priceList:
+            if(p[1]=='new' or p[1]=='like new' or p[1]=='very good' or p[1]=='good'):
+                price_list.append(p[0])
+    if(len(price_list)<4):
+        return -1.3
+    sort(price_list)
+    res = 0
+    for i in range(0,4):
+        res = res + price_list[i]
+    res = res/4.0
+    return res
 
 
 def query(queryfile):
