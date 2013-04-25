@@ -93,6 +93,27 @@ class Regrex:
         print (price,condition,notAmazon)
 
 
+def readIsbnPriceList(isbn):
+    pass
+
+def calPrice(priceList):
+    pass
+
+
+def query(queryfile):
+    f = open(queryfile,'r')
+    preIsbn = '-1'
+    priceList = []
+    for q in f.reads():
+        oneQuery = q.split('\t')
+        isbn = oneQuery[1]
+        condition = oneQuery[2]
+        if(isbn!=preIsbn):
+            preIsbn = isbn
+            priceList = readIsbnPriceList(isbn)
+        print calPrice(priceList)
+
+
 if __name__=='__main__':
     regrex = Regrex()
     response = _fetch('http://www.amazon.com/gp/offer-listing/B005M4MTY4/sr=/qid=/ref=olp_tab_all?ie=UTF8&colid=&coliid=&me=&qid=&seller=&sr=')
