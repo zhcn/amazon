@@ -7,6 +7,8 @@ import gzip
 import time
 import sys
 import re
+import init
+import conf
 
 TIMEOUT = 15 #: timeout in seconds
 MAX_TRY = 3
@@ -180,7 +182,11 @@ def query(queryfile,resfile):
 
 
 if __name__=='__main__':
-    #queryfile = sys.argv[1]
-    #myid = sys.argv[2]
-    
-    query('querytest.txt','res.txt')
+    myid = sys.argv[1]
+    config = conf.readConf('../conf/conf.txt')
+    split_tmp = config['split_tmp']
+    split_prefix = config['split_prefix']
+    client_result = config['client_result']
+    queryfile = split_tmp+'/'+split_prefix+str(myid)+'.txt'
+    resultfile = client_result+'/'+'res'+str(myid)+'.txt'
+    query(queryfile,'res.txt')
