@@ -18,7 +18,7 @@ class MyThread(Thread):
             
 if __name__=='__main__':
     ths = []
-    conf_file = '../conf.txt'
+    conf_file = '../conf/conf.txt'
     conf.init(conf_file)
     config = conf.readConf(conf_file)
     task_num = config['task_num']

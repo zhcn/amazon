@@ -130,25 +130,28 @@ def readIsbnPriceList(isbn):
 
 def calPrice(priceList,condition):
     price_list = []
-    if(condition=='new'):
-        for p in priceList:
+    for p in priceList:
+        if(p[2]==False):
+            continue
+        if(condition=='new'):
             if(p[1]=='new'):
                 price_list.append(p[0])
-    elif(condition=='likenew'):
-        for p in priceList:
+        elif(condition=='likenew'):
             if(p[1]=='new' or p[1]=='like new'):
                 price_list.append(p[0])
-    elif(condition=='verygood'):
-        for p in priceList:
+        elif(condition=='verygood'):
             if(p[1]=='new' or p[1]=='like new' or p[1]=='very good'):
                 price_list.append(p[0])
-    elif(condition=='good'):
-        for p in priceList:
+        elif(condition=='good'):
             if(p[1]=='new' or p[1]=='like new' or p[1]=='very good' or p[1]=='good'):
                 price_list.append(p[0])
+    #print condition
+    #print price_list
     if(len(price_list)<4):
         return -1.3
-    sort(price_list)
+    price_list = sorted(price_list)
+##    for p in price_list:
+##        print p
     res = 0
     for i in range(0,4):
         res = res + price_list[i]
@@ -156,36 +159,28 @@ def calPrice(priceList,condition):
     return res
 
 
-def query(queryfile):
+def query(queryfile,resfile):
     f = open(queryfile,'r')
+    res_fd =open(resfile,'w')
     preIsbn = '-1'
     priceList = []
-    for q in f.reads():
+    for q in f.readlines():
+        print q
+        q = q.strip()
         oneQuery = q.split('\t')
+        #print oneQuery
         isbn = oneQuery[1]
         condition = oneQuery[2]
         if(isbn!=preIsbn):
             preIsbn = isbn
             priceList = readIsbnPriceList(isbn)
-        print calPrice(priceList)
+        #print calPrice(priceList,condition)
+        res = q+'\t'+str(calPrice(priceList,condition))+'\n'
+        res_fd.write(res)
 
 
 if __name__=='__main__':
-##    regrex = Regrex()
-##    response = _fetch('http://www.amazon.com/gp/offer-listing/B005M4MTY4/sr=/qid=/ref=olp_tab_all?ie=UTF8&colid=&coliid=&me=&qid=&seller=&sr=')
-##    html = response.read()
-##    html = html.lower()
-##    #print html
-##    results = regrex.getResults(html)
-##    for result in results:
-##        regrex.parseResult(result)
-    priceList = readIsbnPriceList('0809475626')
-    print priceList
-    print len(priceList)
-##    regrex = Regrex()
-##    response = _fetch('http://www.amazon.com/gp/offer-listing/0809475626/sr=/qid=/ref=olp_tab_used?ie=UTF8&colid=&coliid=&condition=used&me=&qid=&seller=&sr=')
-##    html = response.read()
-##    html = html.lower()
-##    #print html
-##    print regrex.getNext(html)
+    #queryfile = sys.argv[1]
+    #myid = sys.argv[2]
     
+    query('querytest.txt','res.txt')
