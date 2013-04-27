@@ -33,25 +33,29 @@ def _fetch(url):
     for k,v in HEADERS:
         request.add_header(k, v)
     trys = 0
-    while True:
+    flag = True
+    while flag:
         try:
             handler = urllib2.HTTPHandler()
             opener = urllib2.build_opener(handler)
             trys += 1
             response = opener.open(request)
+            print '_fetch open'
             if response.headers.get("Content-Encoding") == 'gzip':
                 stream = StringIO.StringIO(response.read())
                 return gzip.GzipFile(fileobj=stream)
             return response
         except urllib2.HTTPError,e:
             if e.code == 404:
-                raise NotFound
+                flag = False#raise NotFound
+                print 'page 404'
         except Exception, e:
-            print e
+            #print e
+            time.sleep(random.randint(20,60))
+            #print str(e)+' '+url 
             if trys >= MAX_TRY:
-                raise NetError
-            continue
-
+                flag = False
+                print str(e)+' '+url
 
 class Regrex:
     def __init__(self):
