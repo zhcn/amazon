@@ -34,6 +34,8 @@ class Demon(Thread):
                 connection.send('finished')
 
 if __name__=='__main__':
+    os.system('rm -rf /root/data')
+    os.system('mkdir /root/data')
     damon = Demon()
     damon.start()
     damon.join()

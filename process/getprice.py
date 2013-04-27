@@ -7,6 +7,7 @@ import gzip
 import time
 import sys
 import re
+import random
 import init
 import conf
 

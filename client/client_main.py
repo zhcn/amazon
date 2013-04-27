@@ -26,15 +26,14 @@ if __name__=='__main__':
     data_file = config['data_file']
     data_dir = config['data_dir']
     destdir = config['split_tmp']
+    split_tmp = destdir
     process = config['process']
     merge = config['merge']
     client_result = config['client_result']
     client_union = config['client_union']
-    os.system('rm -rf '+data_dir)
     os.system('rm -rf '+split_tmp)
     os.system('rm -rf '+client_result)
     os.system('rm -rf '+client_union)
-    os.system('mkdir '+data_dir)
     os.system('mkdir '+split_tmp)
     os.system('mkdir '+client_result)
     os.system('mkdir '+client_union)
