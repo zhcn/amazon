@@ -11,7 +11,7 @@ import random
 import init
 import conf
 
-TIMEOUT = 15 #: timeout in seconds
+TIMEOUT = 20 #: timeout in seconds
 MAX_TRY = 3
 
 HEADERS = [
@@ -120,18 +120,24 @@ def readIsbnPriceList(isbn):
     regrex = Regrex()
     while(tmp_url!=''):
         #print tmp_url
-        response = _fetch(tmp_url)
-        html = response.read()
-        html = html.lower()
-        res = res+regrex.getPriceList(html)
-        tmp_url = regrex.getNext(html)
+        try:
+            response = _fetch(tmp_url)
+            html = response.read()
+            html = html.lower()
+            res = res+regrex.getPriceList(html)
+            tmp_url = regrex.getNext(html)
+        except Exception,e:
+            print e
     tmp_url = url_used
     while(tmp_url!=''):
-        response = _fetch(tmp_url)
-        html = response.read()
-        html = html.lower()
-        res = res + regrex.getPriceList(html)
-        tmp_url = regrex.getNext(html)
+        try:
+            response = _fetch(tmp_url)
+            html = response.read()
+            html = html.lower()
+            res = res + regrex.getPriceList(html)
+            tmp_url = regrex.getNext(html)
+        except Exception,e:
+            print e
     return res
 
 
