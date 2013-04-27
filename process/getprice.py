@@ -46,14 +46,10 @@ def _fetch(url):
                 stream = StringIO.StringIO(response.read())
                 return gzip.GzipFile(fileobj=stream)
             return response
-        except urllib2.HTTPError,e:
-            if e.code == 404:
-                flag = False
-                print 'page 404'
         except Exception, e:
-            #print e
+            print e
             time.sleep(random.randint(20,60))
-            #print str(e)+' '+url 
+            print str(e)+' '+url 
             if trys >= MAX_TRY:
                 flag = False
                 print str(e)+' '+url
@@ -119,7 +115,7 @@ def readIsbnPriceList(isbn):
     tmp_url = url_new
     regrex = Regrex()
     while(tmp_url!=''):
-        #print tmp_url
+        print tmp_url
         try:
             response = _fetch(tmp_url)
             html = response.read()
@@ -131,6 +127,7 @@ def readIsbnPriceList(isbn):
             print e
     tmp_url = url_used
     while(tmp_url!=''):
+        print tmp_url
         try:
             response = _fetch(tmp_url)
             html = response.read()
@@ -180,23 +177,24 @@ def query(queryfile,resfile):
     preIsbn = '-1'
     priceList = []
     for q in f.readlines():
-        print q
+        #print q
         q = q.strip()
         oneQuery = q.split('\t')
         #print oneQuery
         isbn = oneQuery[1]
         condition = oneQuery[2]
+        print isbn
         if(isbn!=preIsbn):
             preIsbn = isbn
             priceList = readIsbnPriceList(isbn)
-        #print calPrice(priceList,condition)
+        print calPrice(priceList,condition)
         res = q+'\t'+str(calPrice(priceList,condition))+'\n'
         print res
         res_fd.write(res)
 
 
 if __name__=='__main__':
-    myid = sys.argv[1]
+    myid = 1#sys.argv[1]
     config = conf.readConf('../conf/conf.txt')
     split_tmp = config['split_tmp']
     split_prefix = config['split_prefix']
