@@ -47,7 +47,7 @@ def _fetch(url):
             return response
         except urllib2.HTTPError,e:
             if e.code == 404:
-                flag = False#raise NotFound
+                flag = False
                 print 'page 404'
         except Exception, e:
             #print e
@@ -193,4 +193,4 @@ if __name__=='__main__':
     client_result = config['client_result']
     queryfile = split_tmp+'/'+split_prefix+str(myid)+'.txt'
     resultfile = client_result+'/'+'res'+str(myid)+'.txt'
-    query(queryfile,'res.txt')
+    query(queryfile,resultfile)
