@@ -12,7 +12,7 @@ def init(conf):
 	"client_result":"/root/result",
     "client_union":"/root/union",
     "client_union_name":"result.txt",
-    "task_num":150,
+    "task_num":100,
     "process":"../process/getprice.py",
     "split_prefix":"urls",
     "merge":"../result_merge/union.py",
