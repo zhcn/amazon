@@ -24,14 +24,20 @@ if __name__=='__main__':
     task_num = config['task_num']
     #os.system('python ./urls/split.py '+str(task_num))
     data_file = config['data_file']
+    data_dir = config['data_dir']
     destdir = config['split_tmp']
     process = config['process']
     merge = config['merge']
     client_result = config['client_result']
     client_union = config['client_union']
-    #os.system('mkdir '+split_tmp)
-    #os.system('mkdir '+client_result)
-    #os.system('mkdir '+client_union)
+    os.system('rm -rf '+data_dir)
+    os.system('rm -rf '+split_tmp)
+    os.system('rm -rf '+client_result)
+    os.system('rm -rf '+client_union)
+    os.system('mkdir '+data_dir)
+    os.system('mkdir '+split_tmp)
+    os.system('mkdir '+client_result)
+    os.system('mkdir '+client_union)
     task_split.my_task_split(conf_file)
     for i in range(1,task_num+1):
         ths.append(MyThread(i,process,task_num))
