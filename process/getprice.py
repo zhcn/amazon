@@ -123,7 +123,7 @@ def readIsbnPriceList(isbn):
             html = html.lower()
             res = res+regrex.getPriceList(html)
             tmp_url = regrex.getNext(html)
-            time.sleep(random.randint(0,2))
+            #time.sleep(random.randint(0,2))
         except Exception,e:
             print 'readIsbnPriceList Error'
             print e
@@ -136,7 +136,7 @@ def readIsbnPriceList(isbn):
             html = html.lower()
             res = res + regrex.getPriceList(html)
             tmp_url = regrex.getNext(html)
-            time.sleep(random.randint(0,2))
+            #time.sleep(random.randint(0,2))
         except Exception,e:
             print 'readIsbnPriceList Error'
             print e
