@@ -109,8 +109,8 @@ class Regrex:
         return priceList
 
 def readIsbnPriceList(isbn):
-    url_new = 'http://www.amazon.com/gp/offer-listing/'+isbn+'/ref=dp_olp_new?ie=UTF8&condition=new'
-    url_used = 'http://www.amazon.com/gp/offer-listing/'+isbn+'/ref=dp_olp_new?ie=UTF8&condition=used'
+    url_new = 'http://www.amazon.com/gp/offer-listing/'+isbn+'/ref=dp_olp_new?condition=new'
+    url_used = 'http://www.amazon.com/gp/offer-listing/'+isbn+'/ref=dp_olp_new?condition=used'
     res = []
     tmp_url = url_new
     regrex = Regrex()
