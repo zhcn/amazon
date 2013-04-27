@@ -196,7 +196,7 @@ def query(queryfile,resfile):
 
 
 if __name__=='__main__':
-    myid = 1#sys.argv[1]
+    myid = sys.argv[1]
     config = conf.readConf('../conf/conf.txt')
     split_tmp = config['split_tmp']
     split_prefix = config['split_prefix']
