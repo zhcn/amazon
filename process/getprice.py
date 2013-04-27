@@ -11,7 +11,7 @@ import random
 import init
 import conf
 
-TIMEOUT = 20 #: timeout in seconds
+TIMEOUT = 15 #: timeout in seconds
 MAX_TRY = 3
 
 HEADERS = [
@@ -127,6 +127,7 @@ def readIsbnPriceList(isbn):
             res = res+regrex.getPriceList(html)
             tmp_url = regrex.getNext(html)
         except Exception,e:
+            print 'readIsbnPriceList Error'
             print e
     tmp_url = url_used
     while(tmp_url!=''):
@@ -137,6 +138,7 @@ def readIsbnPriceList(isbn):
             res = res + regrex.getPriceList(html)
             tmp_url = regrex.getNext(html)
         except Exception,e:
+            print 'readIsbnPriceList Error'
             print e
     return res
 
@@ -189,6 +191,7 @@ def query(queryfile,resfile):
             priceList = readIsbnPriceList(isbn)
         #print calPrice(priceList,condition)
         res = q+'\t'+str(calPrice(priceList,condition))+'\n'
+        print res
         res_fd.write(res)
 
 
