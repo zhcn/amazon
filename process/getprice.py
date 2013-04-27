@@ -78,6 +78,7 @@ class Regrex:
             return res
     def parseResult(self,result):
         price = self.re_price.findall(result)
+        tmp_price = price[0].replace(',','')
         price = float(price[0])
         #print price
         condition = self.re_condition.findall(result)
