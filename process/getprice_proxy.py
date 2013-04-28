@@ -30,6 +30,7 @@ def _fetch(url):
     """
     Calls http requests
     """
+    proxy = urllib2.ProxyHandler({'http':'http://122.96.59.103:81'})
     request = urllib2.Request(url)
     for k,v in HEADERS:
         request.add_header(k, v)
@@ -38,7 +39,7 @@ def _fetch(url):
     while flag:
         try:
             handler = urllib2.HTTPHandler()
-            opener = urllib2.build_opener(handler)
+            opener = urllib2.build_opener(proxy,handler)
             trys += 1
             response = opener.open(request)
             print '_fetch open'

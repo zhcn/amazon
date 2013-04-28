@@ -57,6 +57,7 @@ def union(sourcedir,destpath):
 def merge(ip,sourcedir,destpath,rdest,myid):
     union(sourcedir,destpath)
     cmd = 'scp '+destpath+' '+ip+':'+rdest+'.'+str(myid)+'.txt'
+    print cmd
     os.system(cmd)
 
 if __name__=='__main__':
@@ -68,6 +69,7 @@ if __name__=='__main__':
     client_id = config['client_id']
     f = open(client_id,'r')
     myid = f.readlines()[0]
+    myid = myid.strip()
     f.close()
     merge(master_ip,client_result,client_union_path,master_result,myid)
     
